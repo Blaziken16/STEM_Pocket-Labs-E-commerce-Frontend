@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { API_BASE_URL } from "./utils/constants";
+import { getAuthHeaders, apiFetch } from "./services/ApiClient";
 import { 
   Store, 
   User, 
@@ -37,7 +39,7 @@ import { ToyArt } from './components/ToyArt';
 
 export default function App() {
   // State
-  const API_BASE_URL = "http://127.0.0.1:8080";
+
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('toybox_token'));
   const [currentUser, setCurrentUser] = useState<UserType | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
@@ -167,10 +169,6 @@ export default function App() {
   };
 
   // Helper Headers
-  const getAuthHeaders = () => ({
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`
-  });
 
   // Auth Submit Handler
   const handleAuthSubmit = async (e: React.FormEvent) => {
