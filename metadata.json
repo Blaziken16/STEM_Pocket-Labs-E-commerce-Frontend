@@ -1,0 +1,6 @@
+{
+  "name": "ToyBox",
+  "description": "An interactive Toy store experience featuring product catalog shopping cart and account dashboard",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

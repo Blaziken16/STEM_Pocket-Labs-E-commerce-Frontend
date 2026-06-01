@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&family=Quicksand:wght@500;600;700&display=swap');
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --primary: #0c6780;
+  --primary-container: #87ceeb;
+  --on-primary-container: #005870;
+  
+  --secondary: #a43c12;
+  --secondary-container: #fe7e4f;
+  --on-secondary-container: #6b1f00;
+  
+  --tertiary: #865219;
+  --tertiary-container: #fbb674;
+  
+  --background: #fbf9f8;
+  --surface: #fbf9f8;
+  --surface-container: #f0eded;
+  --surface-container-high: #eae8e7;
+  --surface-container-highest: #e4e2e1;
+  --surface-container-low: #f6f3f2;
+  --surface-container-lowest: #ffffff;
+  
+  --toy-accent: #89d0ed;
+  
+  --text-base: #1b1c1c;
+  --text-muted: #64748b;
+  --border-color: #eae8e7;
+}
+
+:root.dark {
+  --primary: #59c0db;
+  --primary-container: #0a4f63;
+  --on-primary-container: #e6f6ff;
+  
+  --secondary: #ff9b75;
+  --secondary-container: #bd481d;
+  --on-secondary-container: #ffece6;
+  
+  --tertiary: #dfaf7e;
+  --tertiary-container: #613708;
+  
+  --background: #111215;
+  --surface: #17181c;
+  --surface-container: #1e2025;
+  --surface-container-high: #24272f;
+  --surface-container-highest: #2b2e37;
+  --surface-container-low: #151619;
+  --surface-container-lowest: #1a1b1f;
+  
+  --toy-accent: #37b0dd;
+  
+  --text-base: #f3f4f6;
+  --text-muted: #9ca3af;
+  --border-color: #2e313a;
+}
+
+@theme {
+  --font-sans: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Quicksand", sans-serif;
+  
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-on-secondary-container: var(--on-secondary-container);
+  
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-surface-container-low: var(--color-surface-container-low);
+  --color-surface-container-lowest: var(--color-surface-container-lowest);
+  
+  --color-toy-accent: var(--toy-accent);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--text-base);
+  font-family: var(--font-sans);
+  transition: background-color 0.2s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+/* Also allow updating the text stone base tags or generic borders across common elements in dark mode if needed */
+.dark .text-stone-800 {
+  color: #dfe1e5;
+}
+.dark .text-stone-900 {
+  color: #f3f4f6;
+}
+.dark .text-stone-500 {
+  color: #9ca3af;
+}
+.dark .text-stone-600 {
+  color: #abb2bf;
+}
+.dark .bg-stone-100 {
+  background-color: var(--color-surface-container);
+}
+.dark .bg-stone-50 {
+  background-color: var(--color-surface-container-low);
+}
+.dark .bg-white {
+  background-color: var(--color-surface-container-lowest);
+}
+.dark .border-stone-100 {
+  border-color: var(--border-color);
+}
+.dark .border-stone-150 {
+  border-color: var(--border-color);
+}
+.dark .border-stone-200 {
+  border-color: var(--border-color);
+}
