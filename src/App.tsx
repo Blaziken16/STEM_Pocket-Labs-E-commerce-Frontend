@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { API_BASE_URL } from "./utils/constants";
-import { getAuthHeaders, apiFetch } from "./services/ApiClient";
+import { Headers, apiFetch } from "./Services/ApiClient";
+import { getCart, addToCart, deleteCartItem } from "./Services/cartService";
+import { getMyOrders, placeOrder } from "./Services/orderService";
+import { useAuth } from "./context/AuthContext";
+import { useShopData } from "./hooks/useShopData";
+import { useProducts } from "./hooks/useProducts";
+import {
+  getCurrentUser,
+  loginUser,
+  registerUser,
+} from "./Services/authService";
 import { 
   Store, 
   User, 
@@ -39,12 +49,41 @@ import { ToyArt } from './components/ToyArt';
 
 export default function App() {
   // State
+const {
+  token,
+  currentUser,
+  login,
+  register,
+  logout,
+  refreshCurrentUser,
+  setCurrentUser,
+  authReady,
+} = useAuth();
 
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('toybox_token'));
-  const [currentUser, setCurrentUser] = useState<UserType | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [orders, setOrders] = useState<Order[]>([]);
+const {
+  cartItems,
+  orders,
+  setCartItems,
+  setOrders,
+  loadShopData,
+  addToCart,
+  updateCartQuantity,
+  deleteCartItem,
+  buyNow,
+  placeOrder,
+} = useShopData({
+  token,
+  setCurrentScreen,
+  setCurrentCheckoutIndex,
+  triggerToast,
+});
+
+const {
+  products,
+  productsLoading,
+  productsError,
+  reloadProducts,
+} = useProducts();
   const [currentScreen, setCurrentScreen] = useState<'welcome' | 'browse' | 'cart' | 'detail' | 'account' | 'checkout'>('welcome');
   const [selectedProductId, setSelectedProductId] = useState<string>('sleepy-elephant-plush');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -101,12 +140,7 @@ export default function App() {
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'info' | 'error' } | null>(null);
 
   // Fetch initial products
-  useEffect(() => {
-    fetch(`${API_BASE_URL}/products`)
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
-      .catch((err) => console.error('Error fetching toys:', err));
-  }, []);
+
 
   // Sync token to localStorage
   useEffect(() => {
@@ -123,27 +157,38 @@ export default function App() {
   }, [token]);
 
   // Fetch user data, cart and orders
-  const fetchUserData = () => {
+  const fetchUserData = async () => {
     if (!token) return;
 
-    const headers = { Authorization: `Bearer ${token}` };
-
-    // Fetch user details
-    fetch(`${API_BASE_URL}/me`, { headers })
-      .then((res) => {
-        if (!res.ok) throw new Error('Invalid token');
-        return res.json();
-      })
-      .then((userData: UserType) => {
-        setCurrentUser(userData);
-        setEditName(userData.name);
-        setEditPremium(userData.isPremium);
-        setShippingName(userData.name || '');
-        setCurrentScreen((prev) => (prev === 'welcome' ? 'browse' : prev));
-      })
-      .catch(() => {
-        setToken(null);
+    try {
+      const userData = await getCurrentUser(token);
+      if(!userData) return;
       });
+
+      setCurrentUser(userData);
+      setEditName(userData.name);
+      setEditPremium(!!userData.isPremium);
+      setShippingName(userData.name);
+      setCurrentScreen((prev) => (prev === "welcome" ? "browse" : prev));
+    } catch {
+      setToken(null);
+      return;
+    }
+
+    try {
+      const cartData = await getCart(token);
+      setCartItems(cartData);
+    } catch (err) {
+      console.error("Error fetching cart:", err);
+    }
+
+    try {
+     const ordersData = await getMyOrders(token);
+     setOrders(ordersData);
+    } catch (err) {
+      console.error("Error fetching orders:", err);
+    }
+  };
 
     fetch(`${API_BASE_URL}/cart`, { headers })
       .then((res) => res.json())
@@ -182,22 +227,23 @@ export default function App() {
       : { email: authEmail, password: authPassword };
 
     try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Something went wrong');
+      if (isRegistering) {
+        await register({
+          name: authName,
+          email: authEmail,
+          password: authPassword,
+        });
+        triggerToast("Account registered successfully!", "success");
+      } else {
+        await login({
+          email: authEmail,
+          password: authPassword,
+        });
+        triggerToast("Signed in successfully!", "success");
       }
-
-      setToken(data.token);
-      triggerToast(isRegistering ? 'Account registered successfully!' : 'Signed in successfully!', 'success');
     } catch (err: any) {
       setAuthError(err.message);
-      triggerToast(err.message, 'error');
+      triggerToast(err.message, "error");
     } finally {
       setAuthLoading(false);
     }
@@ -212,7 +258,7 @@ export default function App() {
   };
 
   // Cart Adjustments
-  const handleAddToCart = async (productId: number, quantity: number = 1, redirectAfter: boolean = false) => {
+  const addToCart = async (productId: number, quantity: number = 1, redirectAfter: boolean = false) => {
     if (!token) {
       triggerToast('Please sign in to manage your cart.', 'error');
       setCurrentScreen('welcome');
@@ -222,15 +268,13 @@ export default function App() {
     try {
       const res = await fetch(`${API_BASE_URL}/cart/add`, {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers: getAuthHeaders(token),
         body: JSON.stringify({ productId, quantity })
       });
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.error || 'Could not add to cart');
-      
+      const data = await addToCart(token, productId, quantity);
       setCartItems(data);
-      triggerToast('Added item to shopping cart!', 'success');
+      triggerToast("Added item to shopping cart!", "success");
+      if (redirectAfter) setCurrentScreen("cart");
       
       if (redirectAfter) {
         setCurrentScreen('cart');
@@ -240,22 +284,20 @@ export default function App() {
     }
   };
 
-  const handleUpdateCartQuantity = async (productId: string, currentQty: number, offset: number) => {
+  const updateCartQuantity = async (productId: string, currentQty: number, offset: number) => {
     const targetQty = currentQty + offset;
     
     if (targetQty <= 0) {
-      handleDeleteCartItem(productId);
+      deleteCartItem(productId);
       return;
     }
-
-    // Add negative or positive offset
     try {
       const res = await fetch(`${API_BASE_URL}/cart/add`, {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers: getAuthHeaders(token),
         body: JSON.stringify({ productId, quantity: offset })
       });
-      const data = await res.json();
+      const data = await addToCart(token, productId, offset);
 
       if (!res.ok) throw new Error(data.error || 'Could not modify quantity');
 
@@ -265,20 +307,16 @@ export default function App() {
     }
   };
 
-  const handleDeleteCartItem = async (itemId: string) => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/cart/${productId}`, {
-        method: 'DELETE',
-        headers: getAuthHeaders()
-      });
-      const data = await res.json();
+  const deleteCartItem = async (productId: string | number) => {
+    if (!token) return;
 
-      if (!res.ok) throw new Error(data.error || 'Could not delete item');
+    try {
+      const data = await deleteCartItem(token, productId);
 
       setCartItems(data);
-      triggerToast('Item removed from cart.', 'info');
+      triggerToast("Item removed from cart.", "info");
     } catch (err: any) {
-      triggerToast(err.message, 'error');
+      triggerToast(err.message, "error");
     }
   };
 
@@ -293,7 +331,7 @@ export default function App() {
     setCurrentScreen('checkout');
   };
 
-  const handleBuyNow = async (product: Product) => {
+  const buyNow = async (product: Product) => {
     if (!token) {
       triggerToast('Please sign in to make a purchase.', 'error');
       setCurrentScreen('welcome');
@@ -303,7 +341,7 @@ export default function App() {
     try {
       const res = await fetch(`${API_BASE_URL}/cart/add`, {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers: getAuthHeaders(token),
         body: JSON.stringify({
           productId: product.id,
           quantity: 1
@@ -323,7 +361,7 @@ export default function App() {
         triggerToast(err.message, 'error');
     }
 };
-  const handlePlaceOrder = async (addressData: {
+  const placeOrder = async (addressData: {
     fullName: string;
     phoneNumber: string;
     streetAddress: string;
@@ -335,22 +373,20 @@ export default function App() {
     try {
       const res = await fetch(`${API_BASE_URL}/orders`, {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers: getAuthHeaders(token),
         body: JSON.stringify({
           paymentMethod: 'COD'
         })
       });
-      const data = await res.json();
+       const data = await placeOrder(token, {
+         paymentMethod: "COD",
+       });
 
-       if (!res.ok) {
-           throw new Error(data.error || 'Checkout process failed');
-       }
-
-       triggerToast('Order placed successfully! Cash On Delivery (COD) chosen.', 'success');
+       triggerToast("Order placed successfully! Cash On Delivery COD chosen.", "success");
        setOrders((prev) => [data, ...prev]);
        setCartItems([]);
        setCurrentCheckoutIndex(0);
-       setCurrentScreen('account');
+       setCurrentScreen("account");
        } catch (err: any) {
            triggerToast(err.message, 'error');
     }
@@ -375,8 +411,11 @@ export default function App() {
   };
 
   const handleLogout = () => {
-    setToken(null);
-    triggerToast('Logged out of Pocket Labs.', 'info');
+    logout();
+    setCartItems([]);
+    setOrders([]);
+    setCurrentScreen("welcome");
+    triggerToast("Logged out of Pocket Labs.", "info");
   };
 
   // Calculations
