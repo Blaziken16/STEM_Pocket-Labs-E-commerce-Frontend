@@ -11,6 +11,7 @@ import AppHeader from "./components/layout/AppHeader";
 import SidebarDrawer from "./components/layout/SidebarDrawer";
 import Toast from "./components/ui/Toast";
 import ScreenRouter from "./components/navigation/ScreenRouter";
+import MobileBottomBar from "./components/layout/MobileBottomBar";
 import {
   getCurrentUser,
   loginUser,
@@ -166,16 +167,15 @@ const {
 
     try {
       const userData = await getCurrentUser(token);
-      if(!userData) return;
-      });
+      if (!userData) return;
 
       setCurrentUser(userData);
       setEditName(userData.name);
       setEditPremium(!!userData.isPremium);
       setShippingName(userData.name);
       setCurrentScreen((prev) => (prev === "welcome" ? "browse" : prev));
-    } catch {
-      setToken(null);
+    } catch (err) {
+      console.error("Error fetching current user:", err);
       return;
     }
 
@@ -187,8 +187,8 @@ const {
     }
 
     try {
-     const ordersData = await getMyOrders(token);
-     setOrders(ordersData);
+      const ordersData = await getMyOrders(token);
+      setOrders(ordersData);
     } catch (err) {
       console.error("Error fetching orders:", err);
     }
@@ -517,75 +517,10 @@ const {
         </div>
       </main>
 
-      {/* --- MOBILE NAVIGATION BOTTOM BAR (Image 3 conformable style) --- */}
-      {currentUser && (
-        <nav 
-          id="mobile-bottombar"
-          className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 bg-white border-t border-stone-150 shadow-[0px_-4px_10px_rgba(0,0,0,0.03)] rounded-t-2xl md:hidden"
-        >
-          <button
-            id="mobile-tab-shop"
-            onClick={() => setCurrentScreen('browse')}
-            className={`flex flex-col items-center justify-center gap-0.5 px-4 py-1 transition-transform active:scale-90 ${
-              currentScreen === 'browse' || currentScreen === 'detail' ? 'text-primary scale-102' : 'text-stone-400'
-            }`}
-          >
-            <Store className="w-[22px] h-[22px] stroke-[2.2]" />
-            <span className="text-[10px] font-black tracking-tight leading-none">Shop</span>
-          </button>
-
-          <button
-            id="mobile-tab-orders"
-            onClick={() => setCurrentScreen('account')}
-            className={`flex flex-col items-center justify-center gap-0.5 px-4 py-1 transition-transform active:scale-90 ${
-              currentScreen === 'account' ? 'text-primary scale-102' : 'text-stone-400'
-            }`}
-          >
-            <History className="w-[22px] h-[22px] stroke-[2.2]" />
-            <span className="text-[10px] font-black tracking-tight leading-none font-sans">Orders</span>
-          </button>
-
-          <button
-            id="mobile-tab-cart"
-            onClick={() => setCurrentScreen('cart')}
-            className={`flex flex-col items-center justify-center gap-0.5 px-4 py-1 transition-transform active:scale-90 relative ${
-              currentScreen === 'cart' ? 'text-primary scale-102' : 'text-stone-400'
-            }`}
-          >
-            <ShoppingCart className="w-[22px] h-[22px] stroke-[2.2]" />
-            <span className="text-[10px] font-black tracking-tight leading-none">Cart</span>
-            {cartTotalItems > 0 && (
-              <span className="absolute top-0.5 right-2 bg-secondary-container text-on-secondary-container font-black text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center border border-white">
-                {cartTotalItems}
-              </span>
-            )}
-          </button>
-
-          <button
-            id="mobile-tab-profile"
-            onClick={() => {
-              setCurrentScreen('account');
-              triggerToast('Active profile panel loaded.', 'info');
-            }}
-            className="flex flex-col items-center justify-center gap-0.5 px-4 py-1 text-stone-400 hover:text-primary transition-transform active:scale-90"
-          >
-            <User className="w-[22px] h-[22px] stroke-[2.2]" />
-            <span className="text-[10px] font-black tracking-tight leading-none">Account</span>
-          </button>
-        </nav>
-      )}
-
-      {/* --- EDIT PROFILE DETAILS MODAL PANEL --- */}
-      <EditProfileModal
-        isOpen={isEditModalOpen}
-        setIsOpen={setIsEditModalOpen}
-        editName={editName}
-        setEditName={setEditName}
-        editPremium={editPremium}
-        setEditPremium={setEditPremium}
-        handleSaveProfileDetails={handleSaveProfileDetails}
+      <MobileBottomBar
+        currentUser={currentUser}
+        currentScreen={currentScreen}
+        cartTotalItems={cartTotalItems}
+        setCurrentScreen={setCurrentScreen}
+        triggerToast={triggerToast}
       />
-
-    </div>
-  );
-}
