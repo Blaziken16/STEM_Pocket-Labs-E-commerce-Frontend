@@ -1,11 +1,17 @@
 import React from 'react';
 
 interface ToyArtProps {
-  type: 'elephant' | 'train' | 'dino' | 'rainbow' | 'user' | 'physics' | 'chemistry' | 'jumbokit';
+  type: string;
   className?: string;
 }
 
 export const ToyArt: React.FC<ToyArtProps> = ({ type, className = 'w-16 h-16' }) => {
+  if (type?.startsWith('http') || type?.startsWith('data:image')) {
+    return (
+      <img src={type} alt="Product" className={`object-cover rounded-xl ${className}`} />
+    );
+  }
+
   if (type === 'physics') {
     return (
       <div className={`aspect-square rounded-2xl bg-[#e0f2fe] dark:bg-sky-950/40 border-4 border-sky-100 dark:border-sky-900/60 flex flex-col items-center justify-center p-3 text-center shadow-inner ${className}`}>
