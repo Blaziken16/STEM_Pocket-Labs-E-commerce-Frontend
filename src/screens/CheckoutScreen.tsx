@@ -163,7 +163,7 @@ export const CheckoutScreen: React.FC = () => {
                 </p>
               </div>
               <p className="font-display font-black text-[#0c6780] dark:text-sky-300 text-lg whitespace-nowrap">
-                ${((activeItemProduct?.price || 0) * activeItemQty).toFixed(2)}
+                ₹{((activeItemProduct?.price || 0) * activeItemQty).toFixed(2)}
               </p>
             </div>
           </div>
@@ -175,11 +175,11 @@ export const CheckoutScreen: React.FC = () => {
             <div className="space-y-3">
               <div className="flex justify-between items-center text-xs">
                 <span className="text-stone-500 dark:text-stone-400 font-semibold">Subtotal</span>
-                <span className="font-display font-bold text-stone-800 dark:text-stone-250">${calculatedSubtotal.toFixed(2)}</span>
+                <span className="font-display font-bold text-stone-800 dark:text-stone-250">₹{calculatedSubtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center text-xs">
                 <span className="text-stone-500 dark:text-stone-400 font-semibold">Standard Shipping</span>
-                <span className="font-display font-bold text-stone-800 dark:text-stone-250">$5.00</span>
+                <span className="font-display font-bold text-stone-800 dark:text-stone-250">₹5.00</span>
               </div>
               
               <div className="h-[1px] bg-stone-100 dark:bg-stone-800 my-3" />
@@ -187,7 +187,7 @@ export const CheckoutScreen: React.FC = () => {
               <div className="flex justify-between items-end">
                 <span className="text-stone-900 dark:text-stone-100 font-extrabold text-sm leading-none">Total</span>
                 <span className="font-display font-black text-toy-accent dark:text-[#37b0dd] text-3xl leading-none tracking-tight">
-                  ${calculatedTotal.toFixed(2)}
+                  ₹{calculatedTotal.toFixed(2)}
                 </span>
               </div>
             </div>
@@ -271,7 +271,7 @@ export const CheckoutScreen: React.FC = () => {
                     type="tel"
                     value={shippingPhone}
                     onChange={(e) => setShippingPhone(e.target.value)}
-                    placeholder="+1 (555) 000-0000"
+                    placeholder="+91 xxxx-xxxx"
                     required
                     className="w-full px-4 py-2.5 bg-stone-100/50 dark:bg-stone-900/40 border border-stone-200/50 dark:border-stone-800 rounded-xl text-stone-800 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-600 font-bold text-sm focus:outline-none focus:border-primary focus:bg-white dark:focus:bg-[#1a1b1f] transition-all"
                   />
@@ -284,7 +284,7 @@ export const CheckoutScreen: React.FC = () => {
                   type="text"
                   value={shippingStreet}
                   onChange={(e) => setShippingStreet(e.target.value)}
-                  placeholder="123 Playful Lane"
+                  placeholder="Address"
                   required
                   className="w-full px-4 py-2.5 bg-stone-100/50 dark:bg-stone-900/40 border border-stone-200/50 dark:border-stone-800 rounded-xl text-stone-800 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-600 font-bold text-sm focus:outline-none focus:border-primary focus:bg-white dark:focus:bg-[#1a1b1f] transition-all"
                 />
@@ -297,7 +297,7 @@ export const CheckoutScreen: React.FC = () => {
                     type="text"
                     value={shippingCity}
                     onChange={(e) => setShippingCity(e.target.value)}
-                    placeholder="Toytown"
+                    placeholder="City"
                     required
                     className="w-full px-4 py-2.5 bg-stone-100/50 dark:bg-stone-900/40 border border-stone-200/50 dark:border-stone-800 rounded-xl text-stone-800 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-600 font-bold text-sm focus:outline-none focus:border-primary focus:bg-white dark:focus:bg-[#1a1b1f] transition-all"
                   />
@@ -309,7 +309,7 @@ export const CheckoutScreen: React.FC = () => {
                     type="text"
                     value={shippingState}
                     onChange={(e) => setShippingState(e.target.value)}
-                    placeholder="CA"
+                    placeholder="State"
                     required
                     className="w-full px-4 py-2.5 bg-stone-100/50 dark:bg-stone-900/40 border border-stone-200/50 dark:border-stone-800 rounded-xl text-stone-800 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-600 font-bold text-sm focus:outline-none focus:border-primary focus:bg-white dark:focus:bg-[#1a1b1f] transition-all"
                   />

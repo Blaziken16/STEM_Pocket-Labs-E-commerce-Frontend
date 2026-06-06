@@ -76,7 +76,7 @@ export const CartScreen: React.FC = () => {
                 <div>
                   <h3 className="font-display font-extrabold text-lg text-stone-900">{item.product?.name || 'Toy Item'}</h3>
                   <p className="text-xs text-stone-400 font-semibold">
-                    ${item.product?.price.toFixed(2)} each
+                    ₹{item.product?.price.toFixed(2)} each
                   </p>
                 </div>
               </div>
@@ -102,7 +102,7 @@ export const CartScreen: React.FC = () => {
 
                 <div className="flex items-center gap-4">
                   <p className="font-display font-extrabold text-stone-800 text-lg w-20 text-right">
-                    ${(item.product ? item.product.price * item.quantity : 0).toFixed(2)}
+                    ₹{(item.product ? item.product.price * item.quantity : 0).toFixed(2)}
                   </p>
                   
                   <button
@@ -137,7 +137,7 @@ export const CartScreen: React.FC = () => {
             <div className="flex flex-col items-center text-center">
               <p className="text-stone-500 font-bold text-sm tracking-tight">Total:</p>
               <p className="font-display font-black text-toy-accent text-5xl md:text-6xl mt-1 tracking-tight leading-none">
-                ${cartSubtotal.toFixed(2)}
+                ₹{cartSubtotal.toFixed(2)}
               </p>
               <p className="text-[10px] text-stone-400 font-semibold uppercase tracking-wider mt-3 leading-none">
                 Taxes and shipping calculated at checkout

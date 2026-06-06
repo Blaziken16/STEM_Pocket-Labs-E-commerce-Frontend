@@ -36,6 +36,7 @@ export const DetailScreen: React.FC = () => {
     try {
       await addToCart(product.id, 1);
       triggerToast('Added item to shopping cart!', 'success');
+      setProduct({ ...product, stock: product.stock - 1 });
     } catch (err: any) {
       triggerToast(err.message || 'Error adding to cart', 'error');
     }
@@ -100,7 +101,7 @@ export const DetailScreen: React.FC = () => {
 
           <div className="flex items-baseline gap-4 border-b border-stone-100 pb-4">
             <p className="font-display font-black text-primary text-3xl leading-none">
-              ${product.price.toFixed(2)}
+              ₹{product.price.toFixed(2)}
             </p>
             <span className="text-xs text-stone-400 font-extrabold tracking-tight">
               In Stock ({product.stock} available)

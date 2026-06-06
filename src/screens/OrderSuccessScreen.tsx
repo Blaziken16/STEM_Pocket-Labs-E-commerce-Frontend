@@ -181,7 +181,7 @@ export const OrderSuccessScreen: React.FC = () => {
                     <p className="text-[10px] text-stone-500 line-clamp-2 leading-relaxed">{toy.description}</p>
                   </div>
                   <div className="flex items-center justify-between mt-4">
-                    <span className="font-display font-black text-[#0c6780] dark:text-sky-300 text-sm">${toy.price.toFixed(2)}</span>
+                    <span className="font-display font-black text-[#0c6780] dark:text-sky-300 text-sm">₹{toy.price.toFixed(2)}</span>
                     <button 
                       onClick={() => handleQuickAdd(toy.id)}
                       className="text-xs font-extrabold text-[#0c6780] dark:text-sky-400 hover:text-[#004d62] dark:hover:text-sky-300 transition-colors"
@@ -216,7 +216,7 @@ export const OrderSuccessScreen: React.FC = () => {
                       <p className="text-[10px] font-bold text-stone-500">Qty: {item.quantity}</p>
                     </div>
                   </div>
-                  <span className="text-xs font-black text-stone-900 dark:text-stone-100">${(item.pricePaid * item.quantity).toFixed(2)}</span>
+                  <span className="text-xs font-black text-stone-900 dark:text-stone-100">₹{(item.pricePaid * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>
@@ -224,16 +224,16 @@ export const OrderSuccessScreen: React.FC = () => {
             <div className="space-y-3 pt-4 border-t border-stone-100 dark:border-stone-850">
               <div className="flex justify-between items-center text-xs">
                 <span className="text-stone-600 dark:text-stone-400 font-bold">Subtotal:</span>
-                <span className="text-stone-900 dark:text-stone-100 font-black">${subtotal.toFixed(2)}</span>
+                <span className="text-stone-900 dark:text-stone-100 font-black">₹{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center text-xs">
                 <span className="text-stone-600 dark:text-stone-400 font-bold">Standard Shipping:</span>
-                <span className="text-stone-900 dark:text-stone-100 font-black">${shipping.toFixed(2)}</span>
+                <span className="text-stone-900 dark:text-stone-100 font-black">₹{shipping.toFixed(2)}</span>
               </div>
               <div className="h-[1px] bg-stone-100 dark:bg-stone-850 my-4" />
               <div className="flex justify-between items-center">
                 <span className="text-sm text-stone-900 dark:text-stone-100 font-black">Total Payable:</span>
-                <span className="text-xl font-display font-black text-stone-900 dark:text-stone-100">${total.toFixed(2)}</span>
+                <span className="text-xl font-display font-black text-stone-900 dark:text-stone-100">₹{total.toFixed(2)}</span>
               </div>
             </div>
           </div>

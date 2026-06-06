@@ -122,7 +122,7 @@ export const AccountScreen: React.FC = () => {
               <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 border-stone-100 pt-3 md:pt-0">
                 <div className="text-left md:text-right space-y-1">
                   <p className="font-display font-black text-2xl text-primary leading-none">
-                    ${order.total.toFixed(2)}
+                    ₹{order.total.toFixed(2)}
                   </p>
                   <div className="flex items-center gap-1 text-emerald-600 font-bold text-[10px] tracking-wider uppercase leading-none mt-1">
                     <CheckCircle className="w-3.5 h-3.5 fill-current text-white text-emerald-500 shrink-0" />

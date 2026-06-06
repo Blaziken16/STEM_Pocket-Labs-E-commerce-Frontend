@@ -159,7 +159,7 @@ export const AdminScreen: React.FC = () => {
                           <img src={product.image} alt={product.name} className="w-12 h-12 rounded-lg object-cover bg-stone-100" />
                         </td>
                         <td className="py-3 font-bold">{product.name}</td>
-                        <td className="py-3 text-primary font-bold">${product.price.toFixed(2)}</td>
+                        <td className="py-3 text-primary font-bold">₹{product.price.toFixed(2)}</td>
                         <td className="py-3">{product.stock || 10}</td>
                         <td className="py-3 text-right">
                           <button
@@ -201,7 +201,7 @@ export const AdminScreen: React.FC = () => {
                         <div className="text-sm">
                           <span className="font-bold">{order.items.reduce((acc, i) => acc + i.quantity, 0)} items</span>
                           <span className="mx-2 text-stone-300">|</span>
-                          <span className="font-bold text-primary">${order.total.toFixed(2)}</span>
+                          <span className="font-bold text-primary">₹{order.total.toFixed(2)}</span>
                         </div>
                       </div>
                       

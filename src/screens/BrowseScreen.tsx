@@ -33,13 +33,14 @@ export const BrowseScreen: React.FC = () => {
     try {
       await addToCart(productId, 1);
       triggerToast('Added item to shopping cart!', 'success');
+      setProducts(prev => prev.map(p => p.id === productId ? { ...p, stock: p.stock - 1 } : p));
     } catch (err: any) {
       triggerToast(err.message || 'Error adding to cart', 'error');
     }
   };
 
   const filteredProducts = products.filter(
-    (p) => selectedCategory === 'All' || p.category === selectedCategory
+    (p) => selectedCategory === 'All' || p.category.toLowerCase() === selectedCategory.toLowerCase()
   );
 
   return (
@@ -53,7 +54,7 @@ export const BrowseScreen: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black font-display text-stone-900 dark:text-stone-100 tracking-tight">Browse Pocket Labs Creations</h1>
-          <p className="text-sm text-stone-500 font-medium">Explore premium toys made for curious, playful minds</p>
+          <p className="text-sm text-stone-500 font-medium">Explore Premium kits made for curious minds</p>
         </div>
         
         {currentUser && (
@@ -108,7 +109,7 @@ export const BrowseScreen: React.FC = () => {
                     {toy.name}
                   </h3>
                   <p className="font-display font-extrabold text-primary text-lg whitespace-nowrap shrink-0">
-                    ${toy.price.toFixed(2)}
+                    ₹{toy.price.toFixed(2)}
                   </p>
                 </div>
                 <p className="text-xs text-stone-500 line-clamp-2 mt-1.5 font-medium leading-relaxed">
