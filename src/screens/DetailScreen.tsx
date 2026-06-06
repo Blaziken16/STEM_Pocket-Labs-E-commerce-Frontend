@@ -95,7 +95,7 @@ export const DetailScreen: React.FC = () => {
             </span>
           </div>
 
-          <h1 className="font-display font-black text-4xl md:text-5xl text-[#1b1c1c] leading-tight tracking-tight">
+          <h1 className="font-display font-black text-4xl md:text-5xl text-stone-900 dark:text-stone-100 leading-tight tracking-tight">
             {product.name}
           </h1>
 
@@ -108,25 +108,31 @@ export const DetailScreen: React.FC = () => {
             </span>
           </div>
 
-          <div className="bg-[#fcfbf9] border border-stone-100 rounded-3xl p-5 md:p-6 shadow-inner text-stone-600 font-semibold text-sm leading-relaxed">
+          <div className="bg-[#fcfbf9] dark:bg-stone-900 border border-stone-100 dark:border-stone-800 rounded-3xl p-5 md:p-6 shadow-inner text-stone-600 dark:text-stone-400 font-semibold text-sm leading-relaxed max-h-48 overflow-y-auto">
             {product.description}
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <button
               onClick={handleAddToCart}
-              className="flex-1 py-3.5 bg-toy-accent hover:brightness-105 text-[#004d62] font-black rounded-full flex justify-center items-center gap-2 transition-transform transform active:scale-95 shadow-lg shadow-toy-accent/15"
+              className="relative overflow-hidden group flex-1 py-3.5 border-2 border-toy-accent text-toy-accent font-black rounded-full flex justify-center items-center transition-transform transform active:scale-95 cursor-pointer"
             >
-              <ShoppingCart className="w-4 h-4 stroke-[2.5]" />
-              Add to Cart
+              <div className="absolute inset-0 bg-toy-accent origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out z-0"></div>
+              <span className="relative z-10 flex items-center gap-2 group-hover:text-black transition-colors duration-500">
+                <ShoppingCart className="w-4 h-4 stroke-[2.5]" />
+                Add to Cart
+              </span>
             </button>
             
             <button
               onClick={handleBuyNow}
-              className="flex-1 py-3.5 border-2 border-[#a43c12] text-[#a43c12] hover:bg-rose-50/20 font-black rounded-full flex justify-center items-center gap-2 transition-transform transform active:scale-95 cursor-pointer"
+              className="relative overflow-hidden group flex-1 py-3.5 border-2 border-[#a43c12] text-[#a43c12] dark:border-[#e25d24] dark:text-[#e25d24] font-black rounded-full flex justify-center items-center transition-transform transform active:scale-95 cursor-pointer"
             >
-              <Sparkles className="w-4 h-4" />
-              Buy Now
+              <div className="absolute inset-0 bg-[#a43c12] dark:bg-[#e25d24] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out z-0"></div>
+              <span className="relative z-10 flex items-center gap-2 group-hover:text-black transition-colors duration-500">
+                <Sparkles className="w-4 h-4" />
+                Buy Now
+              </span>
             </button>
           </div>
         </div>
