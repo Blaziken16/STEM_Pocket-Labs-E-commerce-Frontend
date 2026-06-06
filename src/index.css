@@ -31,6 +31,7 @@
 }
 
 :root.dark {
+  color-scheme: dark;
   --primary: #59c0db;
   --primary-container: #0a4f63;
   --on-primary-container: #e6f6ff;
