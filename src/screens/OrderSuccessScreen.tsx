@@ -92,50 +92,60 @@ export const OrderSuccessScreen: React.FC = () => {
               <span className="text-xs font-bold text-orange-500">2-3 Business Days</span>
             </div>
 
-            <div className="relative flex justify-between items-center px-4 mb-8">
-              <div className="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-[2px] bg-stone-100 dark:bg-stone-850 -z-10" />
-              <div className="absolute left-8 right-[70%] top-1/2 -translate-y-1/2 h-[2px] bg-[#0c6780] dark:bg-sky-500 -z-10" />
-              
-              <div className="flex flex-col items-center gap-2 bg-white dark:bg-surface-container-lowest px-2">
-                <div className="w-8 h-8 rounded-full bg-[#0c6780] dark:bg-sky-500 flex items-center justify-center text-white shadow-md">
-                  <Check className="w-4 h-4 stroke-[3]" />
-                </div>
-                <div className="text-center">
-                  <p className="text-xs font-black text-stone-900 dark:text-stone-200">Ordered</p>
-                  <p className="text-[10px] font-bold text-stone-400">Secure COD</p>
-                </div>
+            {placedOrder.orderStatus === 'CANCELLED' ? (
+              <div className="bg-red-50/80 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30 rounded-2xl p-6 text-center mb-8 backdrop-blur-sm">
+                <h4 className="font-display font-black text-xl text-red-600 dark:text-red-400">Order Cancelled</h4>
+                <p className="text-sm font-semibold text-red-500 dark:text-red-500/80 mt-1">This order was cancelled by the administrator.</p>
               </div>
-              
-              <div className="flex flex-col items-center gap-2 bg-white dark:bg-surface-container-lowest px-2">
-                <div className="w-8 h-8 rounded-full border-2 border-[#0c6780] dark:border-sky-500 text-[#0c6780] dark:text-sky-500 flex items-center justify-center font-black text-sm bg-white dark:bg-surface-container-lowest shadow-sm">
-                  2
+            ) : (
+              <div className="relative flex justify-between items-center px-4 mb-8">
+                <div className="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-[2px] bg-stone-100 dark:bg-stone-850 -z-10" />
+                <div 
+                  className="absolute left-8 top-1/2 -translate-y-1/2 h-[2px] bg-[#0c6780] dark:bg-sky-500 -z-10 transition-all duration-700"
+                  style={{ width: placedOrder.orderStatus === 'DELIVERED' ? 'calc(100% - 4rem)' : placedOrder.orderStatus === 'SHIPPED' ? 'calc(50% - 2rem)' : '0%' }}
+                />
+                
+                <div className="flex flex-col items-center gap-2 bg-white dark:bg-surface-container-lowest px-2">
+                  <div className="w-8 h-8 rounded-full bg-[#0c6780] dark:bg-sky-500 flex items-center justify-center text-white shadow-md">
+                    <Check className="w-4 h-4 stroke-[3]" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs font-black text-stone-900 dark:text-stone-200">Placed</p>
+                    <p className="text-[10px] font-bold text-stone-400">Secure COD</p>
+                  </div>
                 </div>
-                <div className="text-center">
-                  <p className="text-xs font-black text-stone-900 dark:text-stone-200">Prepping</p>
-                  <p className="text-[10px] font-bold text-stone-400">Assembling kit</p>
+                
+                <div className="flex flex-col items-center gap-2 bg-white dark:bg-surface-container-lowest px-2">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm transition-colors duration-500 ${
+                    placedOrder.orderStatus === 'DELIVERED' 
+                      ? 'bg-[#0c6780] dark:bg-sky-500 text-white shadow-md' 
+                      : placedOrder.orderStatus === 'SHIPPED'
+                        ? 'border-2 border-[#0c6780] dark:border-sky-500 text-[#0c6780] dark:text-sky-500 bg-white dark:bg-surface-container-lowest shadow-sm'
+                        : 'border-2 border-stone-200 dark:border-stone-800 text-stone-400 bg-white dark:bg-surface-container-lowest'
+                  }`}>
+                    {placedOrder.orderStatus === 'DELIVERED' ? <Check className="w-4 h-4 stroke-[3]" /> : '2'}
+                  </div>
+                  <div className="text-center">
+                    <p className={`text-xs font-black ${placedOrder.orderStatus === 'SHIPPED' || placedOrder.orderStatus === 'DELIVERED' ? 'text-stone-900 dark:text-stone-200' : 'text-stone-400'}`}>Shipping</p>
+                    <p className={`text-[10px] font-bold ${placedOrder.orderStatus === 'SHIPPED' || placedOrder.orderStatus === 'DELIVERED' ? 'text-stone-500 dark:text-stone-400' : 'text-stone-300 dark:text-stone-500'}`}>In transit</p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex flex-col items-center gap-2 bg-white dark:bg-surface-container-lowest px-2">
-                <div className="w-8 h-8 rounded-full border-2 border-stone-200 dark:border-stone-800 text-stone-400 flex items-center justify-center font-black text-sm bg-white dark:bg-surface-container-lowest">
-                  3
-                </div>
-                <div className="text-center">
-                  <p className="text-xs font-black text-stone-400">In Transit</p>
-                  <p className="text-[10px] font-bold text-stone-300 dark:text-stone-500">Next courier</p>
-                </div>
-              </div>
-
-              <div className="flex flex-col items-center gap-2 bg-white dark:bg-surface-container-lowest px-2">
-                <div className="w-8 h-8 rounded-full border-2 border-stone-200 dark:border-stone-800 text-stone-400 flex items-center justify-center font-black text-sm bg-white dark:bg-surface-container-lowest">
-                  4
-                </div>
-                <div className="text-center">
-                  <p className="text-xs font-black text-stone-400">Arrived</p>
-                  <p className="text-[10px] font-bold text-stone-300 dark:text-stone-500">Doorstep dispatch</p>
+                <div className="flex flex-col items-center gap-2 bg-white dark:bg-surface-container-lowest px-2">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm transition-colors duration-500 ${
+                    placedOrder.orderStatus === 'DELIVERED' 
+                      ? 'bg-[#0c6780] dark:bg-sky-500 text-white shadow-md' 
+                      : 'border-2 border-stone-200 dark:border-stone-800 text-stone-400 bg-white dark:bg-surface-container-lowest'
+                  }`}>
+                    {placedOrder.orderStatus === 'DELIVERED' ? <Check className="w-4 h-4 stroke-[3]" /> : '3'}
+                  </div>
+                  <div className="text-center">
+                    <p className={`text-xs font-black ${placedOrder.orderStatus === 'DELIVERED' ? 'text-stone-900 dark:text-stone-200' : 'text-stone-400'}`}>Delivered</p>
+                    <p className={`text-[10px] font-bold ${placedOrder.orderStatus === 'DELIVERED' ? 'text-stone-500 dark:text-stone-400' : 'text-stone-300 dark:text-stone-500'}`}>At your door</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             <div className="border-t border-stone-100 dark:border-stone-850 pt-6">
               <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4">

@@ -39,7 +39,7 @@ export const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '-100%', opacity: 1 }}
             transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-            className="fixed left-0 top-0 h-full w-[85%] max-w-[320px] z-[110] bg-white dark:bg-black shadow-2xl flex flex-col py-6 border-r border-stone-100 dark:border-stone-900"
+            className="fixed left-0 top-0 h-full w-[85%] max-w-[320px] z-[110] bg-white dark:!bg-[#000000] shadow-2xl flex flex-col py-6 border-r border-stone-100 dark:border-stone-900"
           >
             <div className="flex items-center justify-between px-6 pb-6 border-b border-stone-100 dark:border-stone-900">
               <div className="flex items-center gap-3">

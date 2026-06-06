@@ -69,45 +69,45 @@ export const CartScreen: React.FC = () => {
           {cartItems.map((item) => (
             <div
               key={item.id}
-              className="bg-stone-50/70 border border-stone-100 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4"
+              className="bg-stone-50 dark:bg-[#1e2025] border border-stone-100 dark:border-stone-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4"
             >
               <div className="flex items-center gap-4 w-full sm:w-auto">
                 <ToyArt type={item.product?.image as any || 'elephant'} className="w-16 h-16 shrink-0" />
                 <div>
-                  <h3 className="font-display font-extrabold text-lg text-stone-900">{item.product?.name || 'Toy Item'}</h3>
-                  <p className="text-xs text-stone-400 font-semibold">
+                  <h3 className="font-display font-extrabold text-lg text-stone-900 dark:text-stone-100">{item.product?.name || 'Toy Item'}</h3>
+                  <p className="text-xs text-stone-400 dark:text-stone-500 font-semibold">
                     ₹{item.product?.price.toFixed(2)} each
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-4 justify-between sm:justify-start w-full sm:w-auto">
-                <div className="flex items-center bg-stone-200/50 rounded-full py-1.5 px-3 border border-stone-200">
+                <div className="flex items-center bg-stone-200/50 dark:bg-black/40 rounded-full py-1.5 px-3 border border-stone-200 dark:border-stone-700">
                   <button
                     onClick={() => handleUpdateCartQuantity(item.productId, item.quantity, -1)}
-                    className="text-stone-500 hover:text-stone-800 transition-colors p-1"
+                    className="text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 transition-colors p-1"
                   >
                     <Minus className="w-3.5 h-3.5 stroke-[2.5]" />
                   </button>
-                  <span className="font-display font-black text-stone-800 text-sm px-4 select-none">
+                  <span className="font-display font-black text-stone-800 dark:text-stone-100 text-sm px-4 select-none">
                     {item.quantity}
                   </span>
                   <button
                     onClick={() => handleUpdateCartQuantity(item.productId, item.quantity, 1)}
-                    className="text-stone-500 hover:text-stone-800 transition-colors p-1"
+                    className="text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 transition-colors p-1"
                   >
                     <Plus className="w-3.5 h-3.5 stroke-[2.5]" strokeWidth={2.5} />
                   </button>
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <p className="font-display font-extrabold text-stone-800 text-lg w-20 text-right">
+                  <p className="font-display font-extrabold text-stone-800 dark:text-stone-100 text-lg w-20 text-right">
                     ₹{(item.product ? item.product.price * item.quantity : 0).toFixed(2)}
                   </p>
                   
                   <button
                     onClick={() => handleDeleteCartItem(item.productId)}
-                    className="text-rose-500 hover:text-rose-700 bg-rose-50 p-2.5 rounded-full hover:scale-105 transition-all"
+                    className="text-rose-500 hover:text-rose-700 bg-rose-50 dark:bg-rose-950/30 p-2.5 rounded-full hover:scale-105 transition-all"
                   >
                     <Trash2 className="w-4 h-4 stroke-[2.5]" />
                   </button>

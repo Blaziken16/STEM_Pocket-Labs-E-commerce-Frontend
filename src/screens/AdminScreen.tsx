@@ -76,8 +76,8 @@ export const AdminScreen: React.FC = () => {
       await updateOrderStatus(orderId, status);
       triggerToast('Order status updated', 'success');
       fetchData();
-    } catch (error) {
-      triggerToast('Failed to update status', 'error');
+    } catch (error: any) {
+      triggerToast(error.message || 'Failed to update status', 'error');
     }
   };
 
@@ -209,12 +209,12 @@ export const AdminScreen: React.FC = () => {
                         <select
                           value={order.orderStatus || 'PROCESSING'}
                           onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                          className="bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-4 py-2 font-bold text-sm outline-none focus:ring-2 focus:ring-primary/50"
+                          className="bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-stone-100 border border-stone-200 dark:border-stone-700 rounded-xl px-4 py-2 font-bold text-sm outline-none focus:ring-2 focus:ring-primary/50"
                         >
-                          <option value="PROCESSING">Processing</option>
-                          <option value="SHIPPED">Shipped</option>
-                          <option value="DELIVERED">Delivered</option>
-                          <option value="CANCELLED">Cancelled</option>
+                          <option value="PROCESSING" className="dark:bg-stone-800">Processing</option>
+                          <option value="SHIPPED" className="dark:bg-stone-800">Shipped</option>
+                          <option value="DELIVERED" className="dark:bg-stone-800">Delivered</option>
+                          <option value="CANCELLED" className="dark:bg-stone-800">Cancelled</option>
                         </select>
                       </div>
                     </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, CheckCircle, Clock, Star, Store, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigation } from '../contexts/NavigationContext';
 import { Order } from '../types';
 import * as orderApi from '../api/orders';
 import { ToyArt } from '../components/ToyArt';
@@ -9,6 +10,7 @@ import { useNotification } from '../contexts/NotificationContext';
 
 export const AccountScreen: React.FC = () => {
   const { currentUser, setCurrentUser } = useAuth();
+  const { setCurrentScreen, setPlacedOrder } = useNavigation();
   const { triggerToast } = useNotification();
   const [orders, setOrders] = useState<Order[]>([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -89,6 +91,10 @@ export const AccountScreen: React.FC = () => {
           {orders.map((order) => (
             <div
               key={order.id}
+              onClick={() => {
+                setPlacedOrder(order);
+                setCurrentScreen('order-success');
+              }}
               className="bg-surface-container-lowest border border-stone-100 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm hover:shadow-md transition-all cursor-pointer group"
             >
               <div className="flex gap-4 items-center">
@@ -129,7 +135,7 @@ export const AccountScreen: React.FC = () => {
                     <span>Paid ({order.paymentMethod})</span>
                   </div>
                 </div>
-                <ArrowRight className="w-5 h-5 text-stone-400 group-hover:text-primary transition-colors" />
+                <ArrowRight className="w-5 h-5 text-stone-400 group-hover:text-primary group-hover:rotate-[360deg] transition-all duration-500" />
               </div>
             </div>
           ))}
