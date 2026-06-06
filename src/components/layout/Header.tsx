@@ -34,7 +34,7 @@ export const Header: React.FC<{ onOpenSidebar: () => void }> = ({ onOpenSidebar 
   return (
     <header 
       id="global-topappbar"
-      className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 bg-surface-container-lowest/80 backdrop-blur-md h-20 border-b border-stone-150/60 shadow-sm"
+      className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 bg-surface-container-lowest/80 backdrop-blur-md h-20 border-b border-transparent dark:border-stone-900 shadow-sm"
     >
       <div className="flex items-center gap-3 md:gap-5">
         <button 

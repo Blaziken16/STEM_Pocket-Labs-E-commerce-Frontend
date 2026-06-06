@@ -87,7 +87,7 @@ export const BrowseScreen: React.FC = () => {
             key={toy.id}
             whileHover={{ y: -4, scale: 1.01 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="bg-surface-container-lowest border border-stone-100/80 rounded-3xl p-5 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between"
+            className="bg-surface-container-lowest border-none dark:bg-[#1a1c21] rounded-3xl p-5 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between"
           >
             <div 
               className="relative group cursor-pointer h-52 bg-slate-50/50 rounded-2xl flex items-center justify-center p-4 overflow-hidden"
@@ -133,16 +133,20 @@ export const BrowseScreen: React.FC = () => {
                     setSelectedProductId(toy.id);
                     setCurrentScreen('detail');
                   }}
-                  className="w-full py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-xl text-xs text-center transition-colors border border-stone-200/40"
+                  className="relative overflow-hidden w-full py-2.5 bg-stone-800 text-white font-bold rounded-xl text-xs text-center group"
                 >
-                  View Details
+                  <div className="absolute inset-0 bg-stone-600 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out z-0"></div>
+                  <span className="relative z-10">View Details</span>
                 </button>
                 <button
                   onClick={() => handleAddToCart(toy.id)}
-                  className="w-full py-2.5 bg-secondary-container hover:brightness-105 text-on-secondary-container font-extrabold rounded-xl text-xs transition-transform transform active:scale-95 flex items-center justify-center gap-1.5"
+                  className="relative overflow-hidden w-full py-2.5 bg-secondary-container text-on-secondary-container font-extrabold rounded-xl text-xs flex items-center justify-center gap-1.5 group transform active:scale-95"
                 >
-                  <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-                  Add to Cart
+                  <div className="absolute inset-0 bg-black/20 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out z-0"></div>
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+                    Add to Cart
+                  </span>
                 </button>
               </div>
             </div>

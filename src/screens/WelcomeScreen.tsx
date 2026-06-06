@@ -62,18 +62,18 @@ export const WelcomeScreen: React.FC = () => {
           <p className="text-stone-500 font-semibold text-sm">Where play, learning, and wonder unite!</p>
         </div>
 
-        <div className="bg-stone-100 p-1 rounded-full flex mb-6">
+        <div className="bg-stone-100 dark:bg-stone-800 p-1 rounded-full flex mb-6">
           <button
             type="button"
             onClick={() => { setIsRegistering(false); setAuthError(null); }}
-            className={`flex-1 py-2 rounded-full font-bold text-stone-700 text-xs transition-all ${!isRegistering ? 'bg-white shadow' : 'opacity-60'}`}
+            className={`flex-1 py-2 rounded-full font-bold text-stone-700 dark:text-white text-xs transition-all ${!isRegistering ? 'bg-white dark:bg-stone-600 shadow' : 'opacity-60'}`}
           >
             Sign In
           </button>
           <button
             type="button"
             onClick={() => { setIsRegistering(true); setAuthError(null); }}
-            className={`flex-1 py-2 rounded-full font-bold text-stone-700 text-xs transition-all ${isRegistering ? 'bg-white shadow' : 'opacity-60'}`}
+            className={`flex-1 py-2 rounded-full font-bold text-stone-700 dark:text-white text-xs transition-all ${isRegistering ? 'bg-white dark:bg-stone-600 shadow' : 'opacity-60'}`}
           >
             Create Account
           </button>
